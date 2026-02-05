@@ -8,7 +8,7 @@ type State = {
 };
 
 export class App extends React.Component<{}, State> {
-  private currentName?: string;
+  private timerID?: number;
 
   state = {
     hasClock: true,
@@ -16,19 +16,24 @@ export class App extends React.Component<{}, State> {
   };
 
   getRandomName = () => {
-    this.currentName = this.state.clockName;
     const value = Date.now().toString().slice(-4);
 
     return `Clock-${value}`;
   };
 
-  leftClick = () => {
+  setRandomName = () => {
+    this.setState({
+      clockName: this.getRandomName(),
+    });
+  }
+
+  handleLeftClick = () => {
     this.setState({
       hasClock: true,
     });
   };
 
-  rightClick = (event: MouseEvent) => {
+  handleRightClick = (event: MouseEvent) => {
     event.preventDefault();
 
     this.setState({
@@ -37,19 +42,16 @@ export class App extends React.Component<{}, State> {
   };
 
   componentDidMount() {
-    document.addEventListener('contextmenu', this.rightClick);
-    document.addEventListener('click', this.leftClick);
+    document.addEventListener('contextmenu', this.handleRightClick);
+    document.addEventListener('click', this.handleLeftClick);
 
-    window.setInterval(() => {
-      this.setState({
-        clockName: this.getRandomName(),
-      });
-    }, 3300);
+    this.timerID = window.setInterval(this.setRandomName, 3300);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('contextmenu', this.rightClick);
-    document.removeEventListener('click', this.leftClick);
+    document.removeEventListener('contextmenu', this.handleRightClick);
+    document.removeEventListener('click', this.handleLeftClick);
+    window.clearInterval(this.timerID);
   }
 
   render() {
