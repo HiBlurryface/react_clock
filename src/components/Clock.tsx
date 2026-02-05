@@ -34,9 +34,7 @@ export default class App extends React.Component<ClockProps, Props> {
   componentDidUpdate(prevProps: ClockProps) {
     if (prevProps.name !== this.props.name) {
       // eslint-disable-next-line no-console
-      console.warn(
-        `Renamed from ${prevProps.name} to ${this.props.name}`,
-      );
+      console.warn(`Renamed from ${prevProps.name} to ${this.props.name}`);
     }
   }
 

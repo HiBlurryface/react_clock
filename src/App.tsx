@@ -26,7 +26,7 @@ export class App extends React.Component<{}, State> {
     this.setState({
       hasClock: true,
     });
-  }
+  };
 
   rightClick = (event: MouseEvent) => {
     event.preventDefault();
@@ -34,7 +34,7 @@ export class App extends React.Component<{}, State> {
     this.setState({
       hasClock: false,
     });
-  }
+  };
 
   componentDidMount() {
     document.addEventListener('contextmenu', this.rightClick);
@@ -46,15 +46,6 @@ export class App extends React.Component<{}, State> {
       });
     }, 3300);
   }
-
-  // componentDidUpdate() {
-  //   if (this.state.hasClock) {
-  //     // eslint-disable-next-line no-console
-  //     console.log(
-  //       `Renamed from ${this.currentName} to Clock-${this.state.clockName}`,
-  //     );
-  //   }
-  // }
 
   componentWillUnmount() {
     document.removeEventListener('contextmenu', this.rightClick);
