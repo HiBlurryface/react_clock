@@ -22,20 +22,23 @@ export class App extends React.Component<{}, State> {
     return `Clock-${value}`;
   };
 
+  leftClick = () => {
+    this.setState({
+      hasClock: true,
+    });
+  }
+
+  rightClick = (event: MouseEvent) => {
+    event.preventDefault();
+
+    this.setState({
+      hasClock: false,
+    });
+  }
+
   componentDidMount() {
-    document.addEventListener('contextmenu', (event: MouseEvent) => {
-      event.preventDefault();
-
-      this.setState({
-        hasClock: false,
-      });
-    });
-
-    document.addEventListener('click', () => {
-      this.setState({
-        hasClock: true,
-      });
-    });
+    document.addEventListener('contextmenu', this.rightClick);
+    document.addEventListener('click', this.leftClick);
 
     window.setInterval(() => {
       this.setState({
@@ -44,13 +47,18 @@ export class App extends React.Component<{}, State> {
     }, 3300);
   }
 
-  componentDidUpdate() {
-    if (this.state.hasClock) {
-      // eslint-disable-next-line no-console
-      console.log(
-        `Renamed from ${this.currentName} to Clock-${this.state.clockName}`,
-      );
-    }
+  // componentDidUpdate() {
+  //   if (this.state.hasClock) {
+  //     // eslint-disable-next-line no-console
+  //     console.log(
+  //       `Renamed from ${this.currentName} to Clock-${this.state.clockName}`,
+  //     );
+  //   }
+  // }
+
+  componentWillUnmount() {
+    document.removeEventListener('contextmenu', this.rightClick);
+    document.removeEventListener('click', this.leftClick);
   }
 
   render() {

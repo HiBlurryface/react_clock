@@ -5,7 +5,7 @@ type ClockProps = {
 };
 
 type Props = {
-  today: {};
+  today: Date;
 };
 
 export default class App extends React.Component<ClockProps, Props> {
@@ -20,7 +20,7 @@ export default class App extends React.Component<ClockProps, Props> {
       today: new Date(),
     });
     // eslint-disable-next-line no-console
-    console.log(this.state.today);
+    console.log(new Date());
   };
 
   componentDidMount() {
@@ -29,6 +29,15 @@ export default class App extends React.Component<ClockProps, Props> {
 
   componentWillUnmount() {
     window.clearInterval(this.timerId);
+  }
+
+  componentDidUpdate(prevProps: ClockProps) {
+    if (prevProps.name !== this.props.name) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        `Renamed from ${prevProps.name} to ${this.props.name}`,
+      );
+    }
   }
 
   render() {
